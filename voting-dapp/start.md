@@ -1,5 +1,15 @@
 # Build a Voting Dapp tutorial
 
+**Author**: Sacha Lansky
+
+**Maintainers**: Sacha Lansky
+
+**Source code**: 
+
+**Intended audience**: Beginners/Intermediate
+
+**Topics**: ink!, OpenBrush, Governance
+
 Welcome to the Polkadot voting dApp tutorial. In this tutorial, you’ll learn how to build a dApp in the [ink! programming language](https://use.ink/) using [OpenBrush](https://openbrush.io/) - an ink! smart contract library. You'll also learn how to write tests for it and interact with it using a front-end. This tutorial is based on the [Substrate Seminar](https://substrate.io/ecosystem/resources/seminar/) introducing [BrushFam](https://brushfam.io/) (see the full video below) which is recommended material to watch before diving into this tutorial.
 
 [![Video](../assets/seminar-thumbnail.png)](https://www.youtube.com/watch?v=lCToPcLCQgQ)
