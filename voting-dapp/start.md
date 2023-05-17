@@ -4,7 +4,7 @@
 
 **Maintainers**: Sacha Lansky
 
-**Source code**: 
+**Source code**: https://github.com/sacha-l/voting-dapp-workshop
 
 **Intended audience**: Beginners/Intermediate
 
