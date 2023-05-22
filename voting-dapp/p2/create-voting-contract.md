@@ -93,9 +93,20 @@ Just like when we created the Staking contract earlier, we’ll use `cargo contr
 3. In `src/Cargo.toml` add the `voting` features accordingly:
     
     ```toml
-    # adds staking features to dapp
-    staking = []
+    // -- snip --
+    # adds voting features to dapp
     voting = [] # <-- add this line
     ```
 
-If you’re familiar with the contract implementation pattern we used in the first part of this tutorial, you should be able to write the `voting` logic using OpenBrush without much help! Feel free to try it out and use the following sections to check your work.
+You'll notice that this won't compile as is. If you have Rust analyzer in the background, it'll give you the following error:
+
+```sh
+missing ink! message
+```
+
+But now that you're more familiar with extending your ink! contracts with OpenBrush from creating the Staking contract, you should be able to write the `voting` trait and implementation using OpenBrush without much help! Feel free to try it out and use the next sections to check your work. Here's a high level overview of what you need to do:
+- Add the a new trait for the Voting contract, using `#[openbrush::trait_definition]`
+- Add its respective trait implementation in the `impls` folder
+- Make sure everything is linked correctly
+
+

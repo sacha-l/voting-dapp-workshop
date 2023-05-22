@@ -42,14 +42,6 @@ Once you update your project to include the Staking impl as a feature, you'll be
     ]
     ```
 
-1. In `src/Cargo.toml`, add the staking feature to the end of the file:
-
-    ```toml
-    // -- snip --
-    # adds staking features to dapp
-    staking = []
-    ```
-
 ### Add `StakingData` to your contract
 
 1. In `contracts/staking/lib.rs` import the `Data` struct from our staking implementation and create an alias called `StakingData`:

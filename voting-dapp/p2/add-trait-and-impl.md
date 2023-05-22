@@ -1,6 +1,39 @@
-# Add the Voting trait implementation
+# Add the Voting trait and its implementation
 
-The steps below assume you have read the explanations in the panel on the right.
+This section steps you through creating a Voting trait for the Voting contract and adding the trait implementations.
+Have a look at the code explanation in the panel on the right for how we've implemented the voting logic.
+
+1. In the `src/traits/` folder, add the trait definition for Voting by creating `voting.rs` and pasting in the following:
+
+    ```rust
+    pub use crate::libs::errors::StakingErr;
+    pub use ink::prelude::vec::Vec;
+    pub use openbrush::traits::{
+        Balance,
+        String,
+        Timestamp,
+    };
+
+    #[openbrush::wrapper]
+    pub type VotingRef = dyn Voting;
+
+    pub type Id = u128;
+
+    #[openbrush::trait_definition]
+    pub trait Voting {
+        #[ink(message)]
+        fn propose(&mut self, name: String, options: Vec<String>, duration: Timestamp) -> Result<(), StakingErr>;
+
+        #[ink(message)]
+        fn vote(&mut self, proposal_id: Id, option: u8) -> Result<(), StakingErr>;
+    }
+    ```
+
+1. Update the `src/traits/mod.rs` file:
+
+    ```rust
+    pub mod voting;
+    ```
 
 1. In the `src/impls` folder, create a new files called `voting.rs` and start by adding in the imports and storage items for the Voting implementation:
 
@@ -28,7 +61,7 @@ The steps below assume you have read the explanations in the panel on the right.
     }
     ```
 
-1. Paste in the following code to first add in the modifier definition and start writing the impl block:
+1. Paste in the following code to add in the modifier we'll use in step 4 and start writing the impl block:
 
     ```rust
     #[openbrush::modifier_definition]
@@ -53,8 +86,6 @@ The steps below assume you have read the explanations in the panel on the right.
     }
     ```
     
-    Now we can annotate the vote function with this modifier when we write our implementation.
-
 1. Add the logic for `propose`:
 
     ```rust
@@ -126,11 +157,25 @@ The steps below assume you have read the explanations in the panel on the right.
         }
     ```
 
+5. Update `src/libs/errors.rs` with new error types:
+
+    ```rust
+    pub enum StakingErr {
+        // -- snip --
+        NoVotingPower,
+        ProposalDoesNotExist,
+        IncorrectOption,
+        ProposalExpired,
+        MaxFourOptions,
+        AtLeastOneDay
+    }
+    ```
+
 <!-- slide:break -->
 
 <!-- tabs:start -->
 
-#### **💡Modifiers**
+#### **Using OpenBrush modifiers**
 
 Our Voting logic implementation consists of adding the functions `propose` and `vote`. However there’s something to notice that’s quite different in how our Voting contract is designed. Recall the diagram from the previous part of this tutorial:
 
@@ -145,6 +190,11 @@ We want the `vote` function to call into our Staking contract so it can check wh
 
 #### **💡Code explanation**
 
+In steps 1 and 2, we've added the voting trait for our contract which defines 3 methods:
+- `propose`, allowing users to propose a new item to be voted on
+- `vote`, allowing users to vote on a proposal
+
+In steps 3-7, we've added the implementation of the `Voting` trait.
 The implementation for `propose` enforces the following:
 
 - A user must input the name of the proposal, e.g. “Proposal 1”

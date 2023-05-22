@@ -5,7 +5,7 @@ The way we’re using the PSP22 standard is much like the concept of inheritance
 - `PSP22Data` : We already have the storage item for `PSP22Data` declared in the Staking storage field, which holds all data from the standard PSP22 implementation.
 - `transfer_from` and `transfer`: We will need these when we extend our staking contract to implement `stake` and `unstake` respectively.
 
-Let’s also briefly remind ourselves what our custom logic needs to look like:
+Before we jump into coding, let’s remind ourselves what our custom logic needs to look like:
 
 - `fn stake`. The caller of this function will input some amount to *stake*: if the caller of this function already has some tokens staked, add the amount to the amount they already have staked. Otherwise just stake this amount.
 - `fn unstake`. The caller of this function will input the amount they want to *unstake*: if this amount is greater than the amount they have staked, transfer all their stake back to the caller. Otherwise, remove the amount from their total amount staked and transfer just that amount back to their account.
@@ -15,6 +15,6 @@ Let’s also briefly remind ourselves what our custom logic needs to look like:
 
 <!-- tabs:start -->
 
-<img src="../assets/contract-interface.png"> 
+<img src="../assets/contract-interface.png" width="400"> 
 
 <!-- tabs:end -->
