@@ -1,0 +1,35 @@
+[package]
+name = "voting_contract"
+version = "1.0.0"
+edition = "2021"
+authors = ["The best developer ever"]
+
+[dependencies]
+
+ink = { version = "4.1.0", default-features = false }
+
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.3", default-features = false, features = ["derive"], optional = true }
+
+# Include brush as a dependency and enable default implementation for PSP22 via brush feature
+openbrush = { tag = "3.1.0", git = "https://github.com/Brushfam/openbrush-contracts", default-features = false, features = [] }
+dapp = { path = "../../src", default-features = false, features = ["voting"] }
+
+[lib]
+name = "voting_contract"
+path = "lib.rs"
+crate-type = [
+    # Used for normal contract Wasm blobs.
+    "cdylib",
+]
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+    "openbrush/std",
+    "dapp/std"
+]
+ink-as-dependency = []
