@@ -6,9 +6,6 @@ pub use openbrush::traits::{
     Timestamp,
 };
 
-#[openbrush::wrapper]
-pub type VotingRef = dyn Voting;
-
 pub type Id = u128;
 
 #[openbrush::trait_definition]

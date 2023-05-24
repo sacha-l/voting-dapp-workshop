@@ -1,9 +1,9 @@
 #![cfg_attr(not(feature = "std"), no_std)]
-#![feature(min_specialization)]
+#![allow(incomplete_features)]
+#![feature(specialization)]
 
 #[openbrush::contract]
 pub mod my_psp22 {
-
     // Imports from openbrush
     use openbrush::{
         contracts::psp22::*,
@@ -32,11 +32,11 @@ pub mod my_psp22 {
         /// Tokens are issued to the account instantiating this contract.
         #[ink(constructor)]
         pub fn new() -> Self {
-            let mut _instance = Self::default();
-            _instance
-                ._mint_to(_instance.env().caller(), 42_000_000 * 10u128.pow(18))
+            let mut instance = Self::default();
+            instance
+                ._mint_to(instance.env().caller(), 42_000_000 * 10u128.pow(18))
                 .expect("Should mint");
-            _instance
+            instance
         }
     }
 }

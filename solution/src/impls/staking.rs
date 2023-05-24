@@ -3,7 +3,8 @@ pub use ink::prelude::vec::Vec;
 use openbrush::{
     storage::Mapping,
     traits::{
-        Storage, Timestamp
+        Storage,
+        Timestamp,
     },
 };
 
@@ -52,7 +53,7 @@ where
         }
 
         // safely transfer the amount to the contract's account ID
-                PSP22Ref::transfer_from_builder(
+        PSP22Ref::transfer_from_builder(
             &Self::env().account_id(),
             caller,
             Self::env().account_id(),
@@ -61,7 +62,7 @@ where
         )
         .call_flags(ink::env::CallFlags::default().set_allow_reentry(true))
         .invoke()?;
-                
+
         Ok(())
     }
 
@@ -87,7 +88,6 @@ where
 
             // if user input is equal to or more than their current stake
             if amount >= current_stake {
-
                 // first check if they are allowed to unstake
                 if Self::env().block_timestamp() - staking_data.1 < month {
                     return Err(StakingErr::LockingPeriodNotEnded)
@@ -98,7 +98,6 @@ where
 
                 // clean up storage by removing staking data for this caller
                 self.data().staked.remove(&caller);
-
             } else {
                 // otherwise, update the staked amount and reset staking timestamp
                 self.data()
@@ -127,8 +126,6 @@ where
             0
         }
     }
-
-
 }
 
 // Internal helpers for the Staking trait implementation
@@ -142,7 +139,6 @@ where
     T: Storage<Data>,
 {
     fn _calculate_voting_power(&self, staking_data: &(Balance, Timestamp)) -> u128 {
-        
         // get the current amount staked
         let current_amount_staked = staking_data.0;
 
@@ -159,4 +155,3 @@ where
         return voting_power as u128
     }
 }
-

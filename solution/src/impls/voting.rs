@@ -20,6 +20,17 @@ pub struct Data {
     pub _reserved: Option<()>,
 }
 
+impl Data {
+    pub fn new(staking: AccountId) -> Self {
+        Self {
+            proposals: Default::default(),
+            last_id: Default::default(),
+            staking,
+            _reserved: None,
+        }
+    }
+}
+
 #[openbrush::modifier_definition]
 fn has_voting_power<R, T, F>(instance: &mut T, body: F) -> Result<R, StakingErr>
 where
@@ -38,10 +49,9 @@ where
     T: Storage<Data>,
 {
     fn propose(&mut self, name: String, options: Vec<String>, duration: Timestamp) -> Result<(), StakingErr> {
-        
         let id: u128 = self.data().last_id;
 
-        // user must input at least 2 options 
+        // user must input at least 2 options
         if options.len() < 2 {
             return Err(StakingErr::AmountMustBeAboveZero)
         }
@@ -68,7 +78,7 @@ where
 
         // increment last_id
         self.data().last_id += 1;
-        
+
         Ok(())
     }
 
@@ -99,5 +109,4 @@ where
         }
         Ok(())
     }
-
 }
