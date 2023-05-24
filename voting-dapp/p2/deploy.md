@@ -7,7 +7,7 @@ You could use the Cargo Contract CLI as described in the official ink! tutorials
 1. Build your contract by typing the following command inside the `contracts/staking` directory:
     
     ```bash
-    cargo contract build
+    cargo +nightly-2023-02-07 contract build
     ```
 1. Go to the Contracts UI and select the node you want to connect to:
 
