@@ -53,15 +53,7 @@ where
         }
 
         // safely transfer the amount to the contract's account ID
-        PSP22Ref::transfer_from_builder(
-            &Self::env().account_id(),
-            caller,
-            Self::env().account_id(),
-            amount,
-            Vec::<u8>::new(),
-        )
-        .call_flags(ink::env::CallFlags::default().set_allow_reentry(true))
-        .invoke()?;
+        self._transfer_from_to(caller, Self::env().account_id(), amount, Vec::new())?;
 
         Ok(())
     }
