@@ -134,16 +134,7 @@ where
         // get the current amount staked
         let current_amount_staked = staking_data.0;
 
-        // calculate the amount of time passed since the last stake
-        let time_until_unlocking = Self::env().block_timestamp() - staking_data.1;
-
-        // calculate percentage of time passed until user can unlock
-        const UNIX_MONTH: u64 = 2592000; // based on 30 days in Unix time
-        let decay_coefficient = 1 - (time_until_unlocking / UNIX_MONTH);
-
-        // calculate voting_power using linear decay based on amount staked
-        let voting_power = decay_coefficient as u128 * current_amount_staked;
-
-        return voting_power as u128
+        // to keep things simple, the voting power is just the current amount staked
+        return current_amount_staked
     }
 }

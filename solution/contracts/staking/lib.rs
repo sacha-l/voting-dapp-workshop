@@ -4,12 +4,12 @@
 
 #[openbrush::contract]
 pub mod my_psp22 {
-    // Imports from openbrush
+    // imports from openbrush
     use openbrush::{
         contracts::psp22::*,
         traits::Storage,
     };
-    // Imports from the Staking impl
+    // imports from the Staking impl
     use dapp::impls::staking::Data as StakingData;
 
     #[ink(storage)]
@@ -21,9 +21,10 @@ pub mod my_psp22 {
         staking: StakingData, // <- add this line
     }
 
-    // Section contains default implementation without any modifications
+    // contains default implementation without any modifications
     impl PSP22 for Staking {}
 
+    // contains the extended logic to the PSP22 contract
     impl dapp::Staking for Staking {}
 
     impl Staking {

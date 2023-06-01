@@ -8,7 +8,7 @@ Follow these steps on this page to create a default PSP22 implementation with a 
     cargo contract new staking
     ```
     
-1. OpenBrush comes with a PSP22 Wizard to easily create default PSP implementations. Go to the OpenBrush Wizard by scrolling to the bottom of the https://openbrush.io/ homepage.  
+1. OpenBrush comes with a PSP22 Wizard to easily create default PSP implementations. Go to the OpenBrush Wizard by scrolling to the bottom of the [openbrush.io](https://parity.link/BgsMh) homepage.  
 
 1. Use the “Name” field to rename it to `Staking`, then paste it to replace the contents of `contracts/staking/lib.rs`.
 
@@ -50,7 +50,7 @@ Follow these steps on this page to create a default PSP22 implementation with a 
 
     *File: `contracts/staking/lib.rs`. Note that we account for the decimals for denominations using `10u128.pow(18)`.*
 
-    > **Tip:** run `cargo fmt --all` after pasting in code throughout the tutorial to ensure your code stay formatted. 
+    > **Tip:** run `cargo fmt --all` after pasting in code throughout the tutorial to ensure your code stays formatted. 
 
 1. 
 Before moving to the next step, run `cargo contract check` inside the Staking contract directory to make sure it compiles. 
@@ -60,9 +60,16 @@ cd staking
 cargo contract check
 ```
 
-Doesn’t compile? Check your `Cargo.toml` file is using the right dependency versions. 😀
+Doesn’t compile? Check your `Cargo.toml` file is using the right dependency versions. File an issue if you're still having compilation problems! 😀
 
 <!-- slide:break -->
+
+<!-- tabs:start -->
+#### **💡 About the total supply**
+
+If we want the total supply to be `42_000_000` units, we need to account for the decimal places for the denominations of a single unit, which for this token will be 18. Therefore, the total supply is actually `42_000_000 * 10u128.pow(18)`.
+
+<!-- tabs:end -->
 
 <img src="../assets/wizard-1.png"  width="400"> 
 

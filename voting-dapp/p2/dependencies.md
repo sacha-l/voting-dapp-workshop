@@ -1,6 +1,6 @@
 # Link dependencies
 
-Once you update your project to include the Voting impl as a feature, you'll be able to include the storage of the Voting trait implementation to the ink! contract.
+Just like linking the dependencies for the Staking contract to inherit your dApps trait module, you'll need to do the same for the Voting contract.
 
 ### Include the voting implementation as a project feature
 
@@ -32,8 +32,18 @@ Once you update your project to include the Voting impl as a feature, you'll be 
     
 ### Check your contract compiles 
 
-In the `contracts/staking` directory, run `cargo check` to check your contract compiles:
+In the `contracts/voting` directory, run `cargo check` to check your contract compiles:
 
 ```bash
 cargo contract check
 ```
+
+Congratulations! If you've completed the previous steps correctly, you should see this message in the terminal:
+
+```sh
+Your contract's code was built successfully.
+```
+
+> 💡 If you run into errors, make sure to go back and check that you contract's `Cargo.toml` files include the `voting` feature and that you've correctly updated the `src/impls/mod.rs` file.
+
+You're now ready to deploy your dApp and interact with it. 🎉
