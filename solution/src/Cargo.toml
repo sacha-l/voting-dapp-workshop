@@ -1,0 +1,27 @@
+[package]
+name = "dapp"
+version = "1.0.0"
+authors = ["author"]
+edition = "2021"
+
+[dependencies]
+ink = { vesion = "4.1.0", default-features = false }
+openbrush = { tag = "3.1.0", git = "https://github.com/Brushfam/openbrush-contracts", default-features = false, features = ["psp22"] }
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.3", default-features = false, features = ["derive"], optional = true }
+
+[lib]
+name = "dapp"
+path = "lib.rs"
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+    "openbrush/std",
+]
+
+staking = []
+voting = []

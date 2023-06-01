@@ -15,5 +15,5 @@
     * [Voting logic overview](voting-dapp/p2/voting-logic.md)
     * [Create the Voting contract](voting-dapp/p2/create-voting-contract.md)
     * [Add Voting trait and implementation](voting-dapp/p2/add-trait-and-impl.md)
-    * [Link dependencies](voting-dapp/p1/dependencies.md)
+    * [Link dependencies](voting-dapp/p2/dependencies.md)
     * [Deploy the contracts](voting-dapp/p2/deploy.md)

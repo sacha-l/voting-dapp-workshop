@@ -1,6 +1,6 @@
 ## Add a trait definition for Staking
 
-A common pattern in developing ink! contracts with OpenBrush is to first define your traits and then implement them in their own modules. This keeps the project organized, easy to read and extend. But because it uses Cargo features to link all trait and impl files back to the main contract, it's common to run into compilation errors if these features have not been updated in the project's Cargo.toml file.
+A common pattern in developing ink! contracts with OpenBrush is to first define your traits and then implement them in their own modules. This keeps your project organized, easy to review and extend. But because it uses Cargo features to link all trait and impl files back to the main contract, it's common to run into compilation errors if these features have not been updated in the project's Cargo.toml file.
 
 Before writing the Staking trait, update the `openbrush` dependency in the `Cargo.toml` in the root of your project so it includes the PSP22 feature. Replace the line that has the `openbrush` dependency with:
 
@@ -131,14 +131,80 @@ pub trait Staking {
 
 #### **💡Code explanation**
 
-We’ve added the function signatures that we’ll need for the Staking trait as well as the other PSP22 imports. Just like declaring any publicly callable function in an ink! contract, notice how each function signature is annotated with `#[ink(message)]`. This ensures that the methods in this trait are callable when we implement it for the staking contract. 
+We’ve added the Staking trait's function signatures and created a custom error type for the staking functions to return. Just like declaring any publicly callable function in an ink! contract, notice how each function signature is annotated with `#[ink(message)]`. This ensures that the methods in this trait are callable when we implement it for the staking contract. 
 
 You’ll also notice that OpenBrush is doing some macro magic for us too:
 
 - `#[openbrush::wrapper]` : this provides a wrapper around the storage declaration to pass it into our ink! contract.
 - `#[openbrush::traits]`: this allows us to define a trait in a separate file that can be used by our generic Staking contract.
 
-Finally, we also added a custom error type for our Staking trait which we created a separate module for.
+The `errors.rs` file and error code we created will allow us to return specific errors using descriptive enums relevant to our Staking trait implementation, overriding the default `PSP22Error` type.
+
+
+#### **✅ Final code for `src/traits/staking.rs`**
+
+```rust
+pub use crate::libs::errors::StakingErr;
+pub use openbrush::{
+    contracts::psp22::*,
+    traits::{
+        AccountId,
+        Balance,
+    },
+};
+
+#[openbrush::wrapper]
+pub type StakingRef = dyn Staking + PSP22;
+
+#[openbrush::trait_definition]
+pub trait Staking {
+    #[ink(message)]
+    fn stake(&mut self, amount: Balance) -> Result<(), StakingErr>;
+
+    #[ink(message)]
+    fn unstake(&mut self, amount: Balance) -> Result<(), StakingErr>;
+
+    #[ink(message)]
+    fn voting_power(&self, account: AccountId) -> u128;
+}
+```
+
+#### **✅ Final code for `src/libs/errors.rs`**
+
+```rust
+use openbrush::{
+    contracts::psp22::PSP22Error,
+    traits::String,
+};
+use scale::{
+    Decode,
+    Encode,
+};
+
+#[derive(Debug, PartialEq, Eq, Encode, Decode)]
+#[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
+pub enum StakingErr {
+    PSP22Error(PSP22Error),
+    LockingPeriodNotEnded,
+    AmountMustBeAboveZero,
+    NothingToWithdraw,
+}
+
+impl From<StakingErr> for PSP22Error {
+    fn from(err: StakingErr) -> Self {
+        match err {
+            StakingErr::PSP22Error(err) => err,
+            _ => PSP22Error::Custom(String::from("Custom")),
+        }
+    }
+}
+
+impl From<PSP22Error> for StakingErr {
+    fn from(err: PSP22Error) -> Self {
+        StakingErr::PSP22Error(err)
+    }
+}
+```
 
 <!-- tabs:end -->
 

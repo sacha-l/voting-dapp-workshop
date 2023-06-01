@@ -1,12 +1,11 @@
 # Link dependencies
 
-You're almost ready to compile your contract and interact with it. But before jumping to that, you'll need to link the Staking implementation then ink! contract. In OpenBrush, this is done using Rust features.
-
-Once you update your project to include the Staking impl as a feature, you'll be able to include the storage of the Staking trait implementation to the ink! contract.
+We use Rust features to link the Staking implementation to the ink! contract.
+This will allow you to include the storage of the Staking trait implementation to the ink! contract, otherwise ink! has no idea about it.
 
 ### Include the staking implementation as a project feature
 
-1. Replace the content of `src/impls/mod.rs` with the following code to include the Staking implementation as a feature for your dapp: 
+1. Replace the content of `src/impls/mod.rs` with the following code to include the Staking implementation as a feature for your dApp: 
 
     ```rust
     #[cfg(feature = "staking")]
@@ -19,7 +18,7 @@ Once you update your project to include the Staking impl as a feature, you'll be
 1. Add the Staking feature to end of the `src/Cargo.toml` file:
     ```toml
     // -- snip --
-    # adds staking features to dapp library
+    # adds staking features to dApp library
     staking = []
     ```
 
@@ -78,4 +77,63 @@ In the `contracts/staking` directory, run `cargo check` to check your contract c
 
 ```bash
 cargo contract check
+```
+
+<!-- slide:break -->
+
+<!-- tabs:start -->
+
+#### **✅ Final code for `contracts/staking/lib.rs`**
+
+```rust
+#![cfg_attr(not(feature = "std"), no_std)]
+#![allow(incomplete_features)]
+#![feature(specialization)]
+
+#[openbrush::contract]
+pub mod my_psp22 {
+    // imports from openbrush
+    use openbrush::{
+        contracts::psp22::*,
+        traits::Storage,
+    };
+    // imports from the Staking impl
+    use dapp::impls::staking::Data as StakingData;
+
+    #[ink(storage)]
+    #[derive(Default, Storage)]
+    pub struct Staking {
+        #[storage_field]
+        psp22: psp22::Data,
+        #[storage_field] // <- add this line
+        staking: StakingData, // <- add this line
+    }
+
+    // contains default implementation without any modifications
+    impl PSP22 for Staking {}
+
+    // contains the extended logic to the PSP22 contract
+    impl dapp::Staking for Staking {}
+
+    impl Staking {
+        /// Mint a fixed supply of 42_000_000 Staking tokens to be used for Voting.
+        ///
+        /// Tokens are issued to the account instantiating this contract.
+        #[ink(constructor)]
+        pub fn new() -> Self {
+            let mut instance = Self::default();
+            instance
+                ._mint_to(instance.env().caller(), 42_000_000 * 10u128.pow(18))
+                .expect("Should mint");
+            instance
+        }
+    }
+}
+```
+<!-- tabs:end -->
+
+Congratulations! If you've managed to check that your contract code will compile, you're ready to move onto the next part of this tutorial and create the voting contract. You should see this message in the terminal after running `cargo contract check`:
+
+```sh
+Your contract's code was built successfully.
 ```
