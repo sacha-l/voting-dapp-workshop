@@ -17,8 +17,8 @@ pub mod my_psp22 {
     pub struct Staking {
         #[storage_field]
         psp22: psp22::Data,
-        #[storage_field] // <- add this line
-        staking: StakingData, // <- add this line
+        #[storage_field]
+        staking: StakingData,
     }
 
     // contains default implementation without any modifications

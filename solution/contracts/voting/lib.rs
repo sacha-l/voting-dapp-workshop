@@ -9,7 +9,7 @@ pub mod voting {
         Data as VotingData,
         *,
     };
-    use openbrush::traits::{Storage};
+    use openbrush::traits::Storage;
 
     #[ink(storage)]
     #[derive(Storage)]
@@ -21,6 +21,9 @@ pub mod voting {
     impl Voting for VotingContract {}
 
     impl VotingContract {
+        /// Instantiate this contract using the contract address of the Staking contract.
+        ///
+        /// In order to vote on a proposal, users will need to have tokens staked.
         #[ink(constructor)]
         pub fn new(my_psp22_account: AccountId) -> Self {
             Self {
