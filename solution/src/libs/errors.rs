@@ -14,7 +14,7 @@ pub enum StakingErr {
     LockingPeriodNotEnded,
     AmountMustBeAboveZero,
     NothingToWithdraw,
-    NoVotingPower,
+    NotEnoughVotingPower,
     ProposalDoesNotExist,
     IncorrectOption,
     ProposalExpired,

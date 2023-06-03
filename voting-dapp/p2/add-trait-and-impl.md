@@ -146,7 +146,7 @@ Read the code explanation in the panel on the right to understand how we've impl
     ```rust
     pub enum StakingErr {
         // -- snip --
-        NoVotingPower,
+        NotEnoughVotingPower,
         ProposalDoesNotExist,
         IncorrectOption,
         ProposalExpired,
@@ -205,8 +205,9 @@ where
     T: Storage<Data>,
     F: FnOnce(&mut T) -> Result<R, StakingErr>,
 {
-    if !StakingRef::voting_power(&instance.data().staking, T::env().caller()) == 0 {
-        return Err(StakingErr::NoVotingPower)
+    // this checks if the caller has any voting power (i.e. tokens staked)
+    if StakingRef::voting_power(&instance.data().staking, T::env().caller()) < 100 * 10u128.pow(18) {
+        return Err(StakingErr::NotEnoughVotingPower)
     }
 
     body(instance)
@@ -264,8 +265,9 @@ where
         T: Storage<Data>,
         F: FnOnce(&mut T) -> Result<R, StakingErr>,
     {
-        if !StakingRef::voting_power(&instance.data().staking, T::env().caller()) == 0 {
-            return Err(StakingErr::NoVotingPower)
+        // this checks if the caller has any voting power (i.e. tokens staked)
+        if StakingRef::voting_power(&instance.data().staking, T::env().caller()) < 100 * 10u128.pow(18) {
+            return Err(StakingErr::NotEnoughVotingPower)
         }
 
         body(instance)
