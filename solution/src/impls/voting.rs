@@ -98,7 +98,7 @@ where
             let mut original = options;
             original[option as usize] = (
                 original[option as usize].0.clone(),
-                original[option as usize].1 + StakingRef::voting_power(&self.data().staking, Self::env().caller()),
+                original[option as usize].1 + 1 as u128, // adds a single vote 
             );
 
             self.data()
