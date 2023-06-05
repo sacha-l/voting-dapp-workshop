@@ -114,7 +114,9 @@ Once you complete this section, you'll notice that your code won't compile as is
 missing ink! message
 ```
 
-### Try it yourself!
+That's normal because you still need to create a callable function for your contract!
+
+### Try it yourself
 
 Now that you're more familiar with extending your ink! contracts with OpenBrush from creating the Staking contract, you should be able to write the `voting` trait and implementation without much help! Feel free to try it out and use the next sections to check your work. Here's a high level overview of what you need to do:
 - Add the a new trait and function signatures for the Voting contract, using `#[openbrush::trait_definition]`

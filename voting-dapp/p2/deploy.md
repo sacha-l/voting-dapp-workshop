@@ -69,7 +69,7 @@ Read more on where you can deploy your dApp [here](https://use.ink/#where-can-i-
 
 <!-- tabs:end -->
 
-Fantastic — you've successfully completed the voting dapp tutorial! Here are things you can continue working on to further your learning journey about building ink! dApps with OpenBrush.
+Fantastic — you've successfully completed the voting dapp tutorial! Congratulations. Here are things you can continue working on to further your learning journey about building ink! dApps with OpenBrush.
 
 * Add events
 * Write unit tests for each contract

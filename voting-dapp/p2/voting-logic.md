@@ -16,10 +16,9 @@ While Felicia doesn't need to stake her tokens to propose something, she will ne
 
 The rules we’ll enforce in our Voting contract:
 
-- Any user can propose something to vote on
-- Users must have at least 1_000_000 voting power units in order to vote on something
-- Proposals must have at least two options
-- TODO
+- Any user can propose something by entering a proposal as a string
+- Users must be staking at least 100 units from the PSP22 Staking contract in order to vote on a proposal
+- Proposals must have at least two and maximum four options
 
 <!-- slide:break -->
 <!-- tabs:start -->
